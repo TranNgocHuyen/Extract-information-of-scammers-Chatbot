@@ -1,0 +1,6 @@
+B1: cài thư viện
+pip install -r requiremnts.txt
+
+B2: run streamlit
+
+streamlit run streamlit_app.py
