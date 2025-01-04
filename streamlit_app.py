@@ -13,30 +13,26 @@ with tab1:
         for index, row in df.iterrows():
             st.session_state.data_infor = row
             break
-    st.session_state.chatbot_history
+    
     if "chatbot_history" not in st.session_state:
         data = st.session_state.data_infor
         st.session_state.chatbot_history = [
-            {'role': 'system', 'content': config.SYSTEM_PROMPT.format(time = data["time"], 
-                                                                      total_money = data["total_money"],
-                                                                      bill_image = data["bill_image"],
-                                                                      app= data["app"],
-                                                                      name= data["name"],
-                                                                      birthday= data["birthday"],
-                                                                      cccd= data["cccd"],
-                                                                      cccd_image= data["cccd_image"],
-                                                                      )},
             {'role': 'assistant', 'content': "Chào anh, anh hỗ trợ thu hồi vốn treo phải không ạ? Anh tư vấn cho em với."}
         ]
+    # st.session_state.chatbot_history
     def stream_llm_response(response):
         for chunk in response:
             if chunk.choices[0].delta.content is not None:
                 yield chunk.choices[0].delta.content
     # Hiển thị conversation
     for i, message in enumerate(st.session_state.chatbot_history):
-        if i>=0:
+        if len(st.session_state.chatbot_history) <2:
             with st.chat_message(message['role']):
-                st.markdown(message['content'])
+                    st.markdown(message['content'])
+        else:
+            if i>0:
+                with st.chat_message(message['role']):
+                    st.markdown(message['content'])
 
     if prompt:= st.chat_input("Say something ..."):
         with st.chat_message('user'):
@@ -46,14 +42,13 @@ with tab1:
             # response = generate(prompt,st.session_state.chatbot_history) # , st.session_state.chatbot_history
             image, response = generate_llm(prompt,st.session_state.chatbot_history)
             
-            response = st.write_stream(stream_llm_response(response))  
-            print(image)
-        with st.chat_message('assistant'):
-            st.image("data/image/"+ image)
+            st_response = st.write(response)
+        if image != "":
+            with st.chat_message('assistant'):
+                st.image("data/image/"+ image)
         
-        st.session_state.chatbot_history[-1]= {"role": "user", "content": prompt}
+        st.session_state.chatbot_history.append({"role": "user", "content": prompt}) 
         st.session_state.chatbot_history.append({'role': 'assistant', 'content': response})
-
 with tab2:
     information = extract_information(st.session_state.chatbot_history)
     information = json.loads(information)
@@ -65,3 +60,10 @@ with tab2:
         columns = [ key for key, _ in information.items()]
     )
     st.table(df1)
+
+    # if os.path.exists('data_trich_xuat.csv') :
+    #     df = pd.read_csv('data_trich_xuat.csv')
+    #     df.loc[len(df)] = data[0]
+    #     df.to_csv('data_trich_xuat.csv', sep= '\t', header = True,)
+    # else:
+    #     df1.to_csv('data_trich_xuat.csv', sep= '\t', header = True,)
