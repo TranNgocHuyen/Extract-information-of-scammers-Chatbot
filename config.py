@@ -36,11 +36,10 @@ Kịch bản bạn cần tuân theo để trích xuất được thông tin, (n�
 - Nếu : User: Báo số tiền cọc bạn cần chuyển cho user và Cung cấp thông tin thông tin với họ tên, số tài khoản (viết tắt stk)
         You: Hỏi lại có chắc chắn lấy được tiền không? 
         You: cần ghi thêm nội dung chuyển khoản gì không?
-
-Một số ví dụ hội thoại (có thể trích xuất nếu liên quan):
-{example}
 """
-
+# Assistant
+# Một số ví dụ hội thoại (có thể trích xuất nếu liên quan):
+# {example}
 EXTRACT_PROMPT = """
 Bạn là chuyên gia trích xuất thông tin trong ngôn ngữ.
 Đoạn hội thoại:

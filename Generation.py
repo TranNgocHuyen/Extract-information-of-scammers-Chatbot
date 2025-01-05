@@ -40,7 +40,7 @@ def process_chatbot_history(question, chatbot_history):
                                                                       birthday= data["birthday"],
                                                                       cccd= data["cccd"],
                                                                       cccd_image= data["cccd_image"],
-                                                                      example = search_text(question, config.VECTOR_STORE['collection_name'])
+                                                                    #   example = search_text(question, config.VECTOR_STORE['collection_name'])
                                                                       )}]
     # print(start_history)
     # print(chatbot_history)
@@ -49,16 +49,6 @@ def process_chatbot_history(question, chatbot_history):
     else:
         # print(start_history+ chatbot_history)
         return start_history+ chatbot_history
-    
-
-
-def generate(question, chat_history):
-    input = {"role": "user", "content": question}
-    chatbot_history = process_chatbot_history(chat_history)
-    chatbot_history.append(input)
-    response = llm_stream(chatbot_history)
-    
-    return response
 
 def generate_llm(question, chat_history):
     input = {"role": "user", "content": question}

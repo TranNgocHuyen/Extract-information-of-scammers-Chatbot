@@ -3,7 +3,7 @@ import pandas as pd
 import json
 import os
 import config
-from Generation import extract_information, generate, generate_llm
+from Generation import extract_information, generate_llm
 import pandas as pd
 tab1, tab2 = st.tabs(["Chatbot", "Data"])
 with tab1:
