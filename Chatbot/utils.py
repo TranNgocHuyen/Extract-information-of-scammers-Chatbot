@@ -32,7 +32,7 @@ def preprocess_text(text):
     # xóa khoảng trắng liên tiếp
     return ' '.join(text.split())
 
-@st.cache_resource
+# @st.cache_resource
 def load_embedding_model():
     checkpoint_model = config.EMBEDDING_MODEL['model_name'] 
     tokenizer = AutoTokenizer.from_pretrained(checkpoint_model) 

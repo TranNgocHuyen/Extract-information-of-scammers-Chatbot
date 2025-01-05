@@ -1,0 +1,8 @@
+pandas
+openpyxl 
+numpy
+
+# analyze
+matplotlib
+transformers
+pyvi

@@ -34,17 +34,17 @@ def search_text(text_query, collection_name):
 
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
 
-    start_time = datetime.datetime.now()
+#     start_time = datetime.datetime.now()
   
-    print(search_text("ok vậy em gửi bill anh kiểm tra nhé", config.VECTOR_STORE['collection_name']))
-    # Kết thúc đo thời gian
-    end_time = datetime.datetime.now()
-    # Tính toán thời gian thực thi
-    elapsed_time = end_time - start_time
-    # Tính giờ, phút, giây
-    hours, remainder = divmod(elapsed_time.total_seconds(), 3600)
-    minutes, seconds = divmod(remainder, 60)
+#     print(search_text("ok vậy em gửi bill anh kiểm tra nhé", config.VECTOR_STORE['collection_name']))
+#     # Kết thúc đo thời gian
+#     end_time = datetime.datetime.now()
+#     # Tính toán thời gian thực thi
+#     elapsed_time = end_time - start_time
+#     # Tính giờ, phút, giây
+#     hours, remainder = divmod(elapsed_time.total_seconds(), 3600)
+#     minutes, seconds = divmod(remainder, 60)
 
-    print(f"Thời gian chạy: {int(hours)} giờ {int(minutes)} phút {seconds:.2f} giây")  
+#     print(f"Thời gian chạy: {int(hours)} giờ {int(minutes)} phút {seconds:.2f} giây")  
