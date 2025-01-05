@@ -6,22 +6,22 @@ from openai import OpenAI
 import pandas as pd
 
 # 1. LOAD MODEL LLM
-def llm_stream(input):
+def llm_chat(input):
     openai = OpenAI(api_key = os.environ.get("OPENAI_API_KEY"))
     response = openai.chat.completions.create(
                 messages = input,
                 model = "gpt-4o-mini",
                 temperature = 0.7,
-                stream = True
+                stream = False
             )
     return response
 
-def llm(input):
+def llm_gen(input):
     openai = OpenAI(api_key = os.environ.get("OPENAI_API_KEY"))
     response = openai.chat.completions.create(
                 messages = input,
                 model = "gpt-4o-mini",
-                temperature = 0.2,
+                temperature = 0.3,
                 stream = False
             )
     return response.choices[0].message.content
@@ -40,7 +40,7 @@ def process_chatbot_history(question, chatbot_history):
                                                                       birthday= data["birthday"],
                                                                       cccd= data["cccd"],
                                                                       cccd_image= data["cccd_image"],
-                                                                    #   example = search_text(question, config.VECTOR_STORE['collection_name'])
+                                                                      example = search_text(question, config.VECTOR_STORE['collection_name'])
                                                                       )}]
     # print(start_history)
     # print(chatbot_history)
@@ -55,14 +55,20 @@ def generate_llm(question, chat_history):
     chatbot_history = process_chatbot_history(question, chat_history)
     chatbot_history.append(input)
     # print("chatbot_history", chatbot_history)
-    response = llm(chatbot_history)
+    response = llm_chat(chatbot_history)
     image_name, new_response = extract_image(response)
     return image_name, new_response
 
 
 def extract_information(chatbot_history):
+    # assistant_history= []
+    # for data in chatbot_history:
+    #     print("data", type(data))
+    #     if data.role =="assistant":
+    #         assistant_history.append(data)
+    
     input = [{"role": "user", "content": config.EXTRACT_PROMPT.format(chat_history=chatbot_history)}]
-    response = llm(input)
+    response = llm_gen(input)
     pattern = r'```json\s*(.*?)\s*```'
     json_match = re.search(pattern, response, re.DOTALL)
     content_json = json_match.group(1)
@@ -75,7 +81,7 @@ def extract_image(response):
         content_json = json_match.group(0)
         image_name = re.sub(r"\"", "", content_json)
         input = [{"role": "user", "content": config.EXTRACT_IMAGE_PROMPT.format(response=response)}]
-        new_response = llm(input) 
+        new_response = llm_gen(input) 
     else:
         image_name = ""
         new_response = response
