@@ -1,4 +1,5 @@
 B1: Chạy docker
+docker pull q
 docker run -p 6333:6333 -v /absolute/path/here/qdrant_storage:/qdrant/storage qdrant/qdrant  
 -------
 B2: chạy api

@@ -62,14 +62,19 @@ class EmbeddingVectorDBManager:
 
 import json
 
+# lấy dữ liệu từ file json
 data_json = config.DATA
 with open(data_json, 'r', encoding='utf-8') as file:
     dataset = json.load(file)
 
-
+# khởi tạo 
 embed_manager = EmbeddingVectorDBManager()
 
+# thêm data vào vector database (tương ứng 1 collection)
 # embed_manager.add(dataset)
 
+# xóa vector data base
 # embed_manager.delete()
+
+# lấy và in ra danh sách collection tồn tại
 embed_manager.get_list()

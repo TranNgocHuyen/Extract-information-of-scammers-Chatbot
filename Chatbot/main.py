@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from Generation import extract_information, generate_llm
 
-
+# FAST API 
 origins = ["*"]
 app = FastAPI()
 app.add_middleware(
@@ -15,7 +15,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 class Message(BaseModel):
     role: str
     content: str
@@ -29,7 +28,7 @@ class ExtractRequest(BaseModel):
 
 @app.post("/chat")
 def post_message(request: ChatRequest):
-    image_name, response = generate_llm(request.prompt, request.history)
+    image_name, response = generate_llm(request.prompt, request.history) # hàm xử lý: generate_llm
     print(image_name)
     print(response)
     return {"response": {"role": "assistant", "content": response},
@@ -37,4 +36,4 @@ def post_message(request: ChatRequest):
 
 @app.post("/data")
 def get_extracted_information(request: ExtractRequest):
-    return {"data": extract_information(request.history)}
+    return {"data": extract_information(request.history)} # hàm xử lý : extract_information

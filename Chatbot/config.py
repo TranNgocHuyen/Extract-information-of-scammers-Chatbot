@@ -1,18 +1,24 @@
+# tên model embedding
 EMBEDDING_MODEL = {
     'model_name': "VoVanPhuc/sup-SimCSE-VietNamese-phobert-base"  # vocab_size=64000, model_max_length = 256 -> 768
 }
 
+# path dữ liệu json
 DATA = "data/data_hoithoai.json"
+
+# tên của vector db
 VECTOR_STORE = {
     'collection_name': "hoithoai_collection"
 }
 
+# số lượng truy vấn
 RETRIEVAL ={
     'top_k': 2
 }
+# độ dài lịch sử chat
+LEN_CHAT_HISTORY = 30
 
-LEN_CHAT_HISTORY = 20
-
+# prompt của hệ thống
 SYSTEM_PROMPT = """
 Bạn là một người bị treo tiền qua app và cần liên hệ với user - người hỗ trợ lấy lại tiền.
 Để được lấy lại tiền, bạn cần chuyển tiền cọc cho user.
@@ -35,9 +41,11 @@ Kịch bản bạn cần tuân theo để trích xuất được thông tin, (n�
         Nếu bắt buộc thì "Em tìm thấy ảnh trên máy" và gửi tên ảnh "{cccd_image}"
 - Nếu : User: Báo số tiền cọc bạn cần chuyển cho user và Cung cấp thông tin thông tin với họ tên, số tài khoản (viết tắt stk)
         Assistant: Hỏi lại có chắc chắn lấy được tiền không? 
-Một số ví dụ hội thoại (có thể trích xuất nếu liên quan):
-{example}
+
 """
+
+# Một số ví dụ hội thoại (có thể trích xuất nếu liên quan):
+# {example}
 
 EXTRACT_PROMPT = """
 Bạn là chuyên gia trích xuất thông tin trong ngôn ngữ.
@@ -74,12 +82,3 @@ Kịch bản bạn cần tuân theo để trích xuất được thông tin, (n�
         You: cần ghi thêm nội dung chuyển khoản gì không?
 """
 
-RAG_PROMPT = """
-    Đây là lịch sử tin nhắn :
-    {chatbot_history}
-    Và tin nhắn của user:
-    {question}
-    Hãy phản hồi một cách tự nhiên, không hỏi lặp lại và có thể tham khả một số hội thoại sau nếu liên quan:
-    {example}
-    Response:
-    """
