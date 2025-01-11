@@ -6,6 +6,7 @@ from openai import OpenAI
 import pandas as pd
 
 # 1. LOAD MODEL LLM
+# model để sinh câu trả lời
 def llm_chat(input):
     openai = OpenAI(api_key = os.environ.get("OPENAI_API_KEY"))
     response = openai.chat.completions.create(
@@ -16,6 +17,7 @@ def llm_chat(input):
             )
     return response.choices[0].message.content
 
+# model với các nhiệm vụ cụ thể như trích xuất
 def llm_gen(input):
     openai = OpenAI(api_key = os.environ.get("OPENAI_API_KEY"))
     response = openai.chat.completions.create(
@@ -26,7 +28,7 @@ def llm_gen(input):
             )
     return response.choices[0].message.content
 
-# Xử lý lịch sử chat
+# Xử lý lịch sử chat và thêm SYSTEM PROMPT
 def process_chatbot_history(question, chatbot_history):
 
     # đọc dữ liệu từ file excel
@@ -43,7 +45,7 @@ def process_chatbot_history(question, chatbot_history):
                                                                       birthday= data["birthday"],
                                                                       cccd= data["cccd"],
                                                                       cccd_image= data["cccd_image"],
-                                                                      
+                                                                      # các ví dụ hội thoại
                                                                       example = search_text(question, config.VECTOR_STORE['collection_name'])
                                                                       )}]
     # print(start_history)
@@ -55,6 +57,27 @@ def process_chatbot_history(question, chatbot_history):
         # print(start_history+ chatbot_history)
         return start_history+ chatbot_history
 
+
+
+# trích xuất tên ảnh
+def extract_image(response):
+    pattern = r'\"(.*?)*\"' # "ảnh bill.jpg"
+    json_match = re.search(pattern, response, re.DOTALL)
+    if json_match != None:
+        content_json = json_match.group(0)
+        image_name = re.sub(r"\"", "", content_json)
+        # sửa lại phản hồi (bỏ câu văn về ảnh) => response: "em gửi bill ạ" 
+        input = [{"role": "user", "content": config.EXTRACT_IMAGE_PROMPT.format(response=response)}]
+        new_response = llm_gen(input) 
+    else:
+        image_name = ""
+        new_response = response
+    print("image_name", image_name)  
+    print("new_response", new_response)  
+
+    return image_name, new_response
+
+# TẠO PHẢN HỒI VÀ TÊN ẢNH
 def generate_llm(question, chat_history):
     input = {"role": "user", "content": question}
     chatbot_history = process_chatbot_history(question, chat_history) # system+ history
@@ -64,7 +87,7 @@ def generate_llm(question, chat_history):
     image_name, new_response = extract_image(response)
     return image_name, new_response
 
-
+# Trích xuất thông tin của user
 def extract_information(chatbot_history):
     # assistant_history= []
     # for data in chatbot_history:
@@ -82,21 +105,3 @@ def extract_information(chatbot_history):
     json_match = re.search(pattern, response, re.DOTALL)
     content_json = json_match.group(1)
     return content_json
-
-# trích xuất ảnh
-def extract_image(response):
-    pattern = r'\"(.*?)*\"' # "ảnh bill.jpg"
-    json_match = re.search(pattern, response, re.DOTALL)
-    if json_match != None:
-        content_json = json_match.group(0)
-        image_name = re.sub(r"\"", "", content_json)
-        # sửa lại phản hồi (bỏ câu văn về ảnh) => response: "em gửi bill ạ" 
-        input = [{"role": "user", "content": config.EXTRACT_IMAGE_PROMPT.format(response=response)}]
-        new_response = llm_gen(input) 
-    else:
-        image_name = ""
-        new_response = response
-    print("image_name", image_name)  
-    print("new_response", new_response)  
-
-    return image_name, new_response

@@ -10,6 +10,7 @@ def search_text(text_query, collection_name):
     client = QdrantClient(url="http://localhost:6333")
     tokenizer, model = load_embedding_model()
 
+    # trả về danh sách kết quả tìm kiếm với top k
     search_result=client.search(
 
         collection_name=collection_name,
@@ -23,7 +24,7 @@ def search_text(text_query, collection_name):
             ),
    )
 
-    
+    # lấy danh sách pay load
     answer_array=[]
     
     for i in search_result:
@@ -33,7 +34,7 @@ def search_text(text_query, collection_name):
     return answer_array
 
 
-
+# Test
 # if __name__ == '__main__':
 
 #     start_time = datetime.datetime.now()

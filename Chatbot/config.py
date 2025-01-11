@@ -41,11 +41,11 @@ Kịch bản bạn cần tuân theo để trích xuất được thông tin, (n�
         Nếu bắt buộc thì "Em tìm thấy ảnh trên máy" và gửi tên ảnh "{cccd_image}"
 - Nếu : User: Báo số tiền cọc bạn cần chuyển cho user và Cung cấp thông tin thông tin với họ tên, số tài khoản (viết tắt stk)
         Assistant: Hỏi lại có chắc chắn lấy được tiền không? 
-
+Một số ví dụ hội thoại (có thể dùng để trả lời user nếu liên quan):
+{example}
 """
 
-# Một số ví dụ hội thoại (có thể trích xuất nếu liên quan):
-# {example}
+
 
 EXTRACT_PROMPT = """
 Bạn là chuyên gia trích xuất thông tin trong ngôn ngữ.

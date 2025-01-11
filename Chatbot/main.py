@@ -26,6 +26,7 @@ class ChatRequest(BaseModel):
 class ExtractRequest(BaseModel):
     history: List[Message]
 
+# api xử lý hội thoại phản hồi
 @app.post("/chat")
 def post_message(request: ChatRequest):
     image_name, response = generate_llm(request.prompt, request.history) # hàm xử lý: generate_llm
@@ -34,6 +35,7 @@ def post_message(request: ChatRequest):
     return {"response": {"role": "assistant", "content": response},
             "image_name": image_name}
 
+# api lấy dữ liệu trích xuất
 @app.post("/data")
 def get_extracted_information(request: ExtractRequest):
     return {"data": extract_information(request.history)} # hàm xử lý : extract_information

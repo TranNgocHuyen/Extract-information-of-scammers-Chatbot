@@ -26,6 +26,7 @@ class EmbeddingVectorDBManager:
             vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
         )
 
+    # ADD COLLECTION
     def add(self, chunks, collection_name = config.VECTOR_STORE['collection_name']):
         
         tokenizer, model = load_embedding_model()
@@ -47,7 +48,7 @@ class EmbeddingVectorDBManager:
             ],
             batch_size=256
         )
-    # delete
+    # delete COLLECTION
     def delete(self, collection_name = config.VECTOR_STORE['collection_name']):
         
         self.client.delete_collection(collection_name=collection_name)
