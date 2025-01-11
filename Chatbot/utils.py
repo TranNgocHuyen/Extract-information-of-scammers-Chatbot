@@ -26,7 +26,7 @@ def clean_text(text):
 def preprocess_text(text):
     text = clean_text(text)
     
-    # pyvi
+    # pyvi -> nối các từ ghép quần_áo
     text = tokenize(text)
     
     # xóa khoảng trắng liên tiếp

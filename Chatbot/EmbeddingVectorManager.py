@@ -26,7 +26,7 @@ class EmbeddingVectorDBManager:
             vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
         )
 
-    # ADD COLLECTION
+    # ADD vector vào COLLECTION
     def add(self, chunks, collection_name = config.VECTOR_STORE['collection_name']):
         
         tokenizer, model = load_embedding_model()

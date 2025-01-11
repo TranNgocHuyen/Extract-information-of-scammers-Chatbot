@@ -13,7 +13,7 @@ VECTOR_STORE = {
 
 # số lượng truy vấn
 RETRIEVAL ={
-    'top_k': 2
+    'top_k': 3
 }
 # độ dài lịch sử chat
 LEN_CHAT_HISTORY = 30

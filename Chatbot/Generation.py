@@ -80,10 +80,15 @@ def extract_image(response):
 # TẠO PHẢN HỒI VÀ TÊN ẢNH
 def generate_llm(question, chat_history):
     input = {"role": "user", "content": question}
+
+    # xử lý lịch sử
     chatbot_history = process_chatbot_history(question, chat_history) # system+ history
     chatbot_history.append(input)
-    # print("chatbot_history", chatbot_history)
+
+    # sinh ra câu trả lời
     response = llm_chat(chatbot_history)
+
+    # trích xuất thông tin ảnh và điều chỉnh lại phản hồi
     image_name, new_response = extract_image(response)
     return image_name, new_response
 
